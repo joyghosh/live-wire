@@ -3,7 +3,10 @@ Created on 23-Aug-2015
 
 @author: joy ghosh
 '''
-from autobahn.twisted.websocket import WebSocketServerProtocol
+import sys
+from autobahn.twisted.websocket import WebSocketServerProtocol, WebSocketServerFactory
+from twisted.python import log
+from twisted.internet import reactor
 
 class LiveWireServerProtocol(WebSocketServerProtocol):
     '''
@@ -11,10 +14,10 @@ class LiveWireServerProtocol(WebSocketServerProtocol):
     In simple language this is the web-socket end-point for the push server.  
     '''
 
-    def __init__(self, params):
-        '''
-        Constructor
-        '''
+#     def __init__(self, params):
+#         '''
+#         Constructor
+#         '''
     
     '''client connection handler'''
     def onConnect(self, request):
@@ -22,12 +25,28 @@ class LiveWireServerProtocol(WebSocketServerProtocol):
     
     '''web-socket open handler'''
     def onOpen(self):
-        WebSocketServerProtocol.onOpen(self)
+        print("Web-socket connection open.")
     
     '''message handler'''
     def onMessage(self, payload, isBinary):
-        WebSocketServerProtocol.onMessage(self, payload, isBinary)
+        if isBinary:
+            print("Binary message received: {} bytes".format(len(payload)))
+        else:
+            print("Text message received: {}".format(payload.decode('utf-8')))
+        
+        ##echo back message verbatim.
+        self.sendMessage(payload, isBinary)
     
     '''connection close handler'''
     def onClose(self, wasClean, code, reason):
-        WebSocketServerProtocol.onClose(self, wasClean, code, reason)
+        print("Web-socket connection closed {}".format(reason))
+
+if __name__ == '__main__':
+    
+    log.startLogging(sys.stdout)
+    
+    factory = WebSocketServerFactory("ws://127.0.0.1:9000")
+    factory.protocol = LiveWireServerProtocol
+    
+    reactor.listenTCP(9000, factory) #@UndefinedVariable
+    reactor.run() #@UndefinedVariable
