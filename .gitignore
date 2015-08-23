@@ -1,0 +1,10 @@
+#IDE specific
+.project
+.pydevproject
+
+#virtual environment
+/venv/*
+
+#compiled python modules
+*.pyc
+
