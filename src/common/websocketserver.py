@@ -4,6 +4,7 @@ Created on 23-Aug-2015
 @author: joy ghosh
 '''
 import sys
+import json
 from autobahn.twisted.websocket import WebSocketServerProtocol, WebSocketServerFactory
 from twisted.python import log
 from twisted.internet import reactor
@@ -29,6 +30,21 @@ class LiveWireServerProtocol(WebSocketServerProtocol):
     
     '''message handler'''
     def onMessage(self, payload, isBinary):
+        
+        obj = json.loads(payload.decode('utf8'))
+        
+        if(obj['type'] == "presence"):
+            #TODO
+            pass
+        elif(obj['type'] == "private"):
+            #TODO
+            pass
+        elif(obj['type'] == "public"):
+            #TODO
+            pass
+        else:
+            self.sendMessage(json.dumps({"error":"channel type not supported"}), False)
+            
         if isBinary:
             print("Binary message received: {} bytes".format(len(payload)))
         else:

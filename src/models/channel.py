@@ -9,9 +9,17 @@ class Channel(object):
     Basic channel entity to which peers are subscribed to.
     '''
 
-
-    def __init__(self, params):
+    def __init__(self, name):
         '''
-        Constructor
+        basic instance attributes of a channel:
+        (1) channel name.
+        (2) Peers subscribed to the channel.
         '''
-        
+        self.name = name
+        self.peers = {}
+    
+    def subscribe(self, peer):
+        pass
+            
+    def unsubscribe(self,peer):
+        pass
