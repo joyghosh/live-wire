@@ -1,10 +1,10 @@
 '''
 Created on 23-Aug-2015
 
-@author: joy ghosh
+@author: joyghosh
 '''
 
-class Channel(object):
+class BaseChannel(object):
     '''
     Basic channel entity to which peers are subscribed to.
     '''
@@ -19,7 +19,19 @@ class Channel(object):
         self.peers = {}
     
     def subscribe(self, peer):
+        """
+        Add peer to the peer list.
+        """
         pass
             
     def unsubscribe(self,peer):
+        """
+        Remove peer from the peer list.
+        """
+        pass
+    
+    def broadcast(self):
+        """
+        Broadcast event to all subscribed peers.
+        """
         pass

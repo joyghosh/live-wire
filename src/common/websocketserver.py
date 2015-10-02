@@ -11,7 +11,7 @@ from twisted.internet import reactor
 
 class LiveWireServerProtocol(WebSocketServerProtocol):
     '''
-    This class models the web-socket connection end-point on server's end.
+    This class channels the web-socket connection end-point on server's end.
     In simple language this is the web-socket end-point for the push server.  
     '''
 
