@@ -54,20 +54,20 @@ class LiveWireServerProtocol(WebSocketServerProtocol):
 
     
     def subscribe_to_channel(self, payload):
-        if(payload['channel-type'] == "presence"):
+        if(payload['channel-type'] == "lw-presence"):
             pass
-        elif(payload['channel-type'] == "private"):
+        elif(payload['channel-type'] == "lw-private"):
             pass
-        elif(payload['channel-type'] == "public"):
+        elif(payload['channel-type'] == "lw-public"):
             pass
         else:
             self.sendMessage(json.dump({"error":"channel-type not supported."}), False)
             
     
     def post_event_to_channel(self, payload):
-        if(payload['event-type'] == "custom"):
+        if(payload['event-type'] == "lw-custom-event"):
             pass
-        elif(payload['event-type'] == "presence"):
+        elif(payload['event-type'] == "lw-presence-event"):
             pass
         else:
             self.sendMessage(json.dump({"error":"event-type not supported."}), False)
