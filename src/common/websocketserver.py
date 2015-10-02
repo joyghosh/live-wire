@@ -4,13 +4,14 @@ Created on 23-Aug-2015
 @author: joy ghosh
 '''
 import sys
+import json
 from autobahn.twisted.websocket import WebSocketServerProtocol, WebSocketServerFactory
 from twisted.python import log
 from twisted.internet import reactor
 
 class LiveWireServerProtocol(WebSocketServerProtocol):
     '''
-    This class models the web-socket connection end-point on server's end.
+    This class channels the web-socket connection end-point on server's end.
     In simple language this is the web-socket end-point for the push server.  
     '''
 
@@ -29,6 +30,16 @@ class LiveWireServerProtocol(WebSocketServerProtocol):
     
     '''message handler'''
     def onMessage(self, payload, isBinary):
+        
+        payloadObject = json.loads(payload.decode('utf8'))
+        
+        if(payloadObject['type'] == "subscribe"):
+            self.subscribe_to_channel(payloadObject)
+        elif(payloadObject['type'] == "event"):
+            self.post_event_to_channel(payloadObject)
+        else:
+            self.sendMessage(json.dumps({"error":"No such type supported."}), False)
+            
         if isBinary:
             print("Binary message received: {} bytes".format(len(payload)))
         else:
@@ -40,6 +51,27 @@ class LiveWireServerProtocol(WebSocketServerProtocol):
     '''connection close handler'''
     def onClose(self, wasClean, code, reason):
         print("Web-socket connection closed {}".format(reason))
+
+    
+    def subscribe_to_channel(self, payload):
+        if(payload['channel-type'] == "lw-presence"):
+            pass
+        elif(payload['channel-type'] == "lw-private"):
+            pass
+        elif(payload['channel-type'] == "lw-public"):
+            pass
+        else:
+            self.sendMessage(json.dump({"error":"channel-type not supported."}), False)
+            
+    
+    def post_event_to_channel(self, payload):
+        if(payload['event-type'] == "lw-custom-event"):
+            pass
+        elif(payload['event-type'] == "lw-presence-event"):
+            pass
+        else:
+            self.sendMessage(json.dump({"error":"event-type not supported."}), False)
+        
 
 if __name__ == '__main__':
     
