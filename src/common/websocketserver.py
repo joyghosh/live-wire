@@ -31,19 +31,14 @@ class LiveWireServerProtocol(WebSocketServerProtocol):
     '''message handler'''
     def onMessage(self, payload, isBinary):
         
-        obj = json.loads(payload.decode('utf8'))
+        payloadObject = json.loads(payload.decode('utf8'))
         
-        if(obj['type'] == "presence"):
-            #TODO
-            pass
-        elif(obj['type'] == "private"):
-            #TODO
-            pass
-        elif(obj['type'] == "public"):
-            #TODO
-            pass
+        if(payloadObject['type'] == "subscribe"):
+            self.subscribe_to_channel(payloadObject)
+        elif(payloadObject['type'] == "event"):
+            self.post_event_to_channel(payloadObject)
         else:
-            self.sendMessage(json.dumps({"error":"channel type not supported"}), False)
+            self.sendMessage(json.dumps({"error":"No such type supported."}), False)
             
         if isBinary:
             print("Binary message received: {} bytes".format(len(payload)))
@@ -56,6 +51,27 @@ class LiveWireServerProtocol(WebSocketServerProtocol):
     '''connection close handler'''
     def onClose(self, wasClean, code, reason):
         print("Web-socket connection closed {}".format(reason))
+
+    
+    def subscribe_to_channel(self, payload):
+        if(payload['channel-type'] == "presence"):
+            pass
+        elif(payload['channel-type'] == "private"):
+            pass
+        elif(payload['channel-type'] == "public"):
+            pass
+        else:
+            self.sendMessage(json.dump({"error":"channel-type not supported."}), False)
+            
+    
+    def post_event_to_channel(self, payload):
+        if(payload['event-type'] == "custom"):
+            pass
+        elif(payload['event-type'] == "presence"):
+            pass
+        else:
+            self.sendMessage(json.dump({"error":"event-type not supported."}), False)
+        
 
 if __name__ == '__main__':
     

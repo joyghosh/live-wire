@@ -9,8 +9,15 @@ class BaseEvent(object):
     Class representation of an abstract event model.
     '''
     
-    def __init__(self, params):
+    def __init__(self, eventType, message):
         '''
-        Constructor
+        Initialize event type and message.
         '''
-        
+        self.eventType = eventType
+        self.message = message
+    
+    def getType(self):
+        return self.eventType
+    
+    def getMessage(self):
+        return self.message
