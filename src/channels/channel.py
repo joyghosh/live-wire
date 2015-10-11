@@ -16,19 +16,27 @@ class BaseChannel(object):
         (2) Peers subscribed to the channel.
         '''
         self.name = name
-        self.peers = {}
+        self.peers = []
     
     def subscribe(self, peer):
         """
         Add peer to the peer list.
         """
-        pass
+        if(peer in self.peers):
+            return False
+        else:
+            self.peers.append(peer)
+            return True
             
     def unsubscribe(self,peer):
         """
         Remove peer from the peer list.
         """
-        pass
+        if(peer in self.peers):
+            self.peers.remove(peer)
+            return True
+        else:
+            return False
     
     def broadcast(self):
         """

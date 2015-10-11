@@ -7,7 +7,7 @@ from events.event import BaseEvent
 
 class PresenceEvent(BaseEvent):
     '''
-    Event types for presence type channel. Following are the supported event types for a presence channel:
+    Event type for presence channel. Following are the supported event types for a presence channel:
     (i)   lw-peer-subscription-success
     (ii)  lw-peer-subscription-failed
     (iii) lw-peer-removed
@@ -17,4 +17,3 @@ class PresenceEvent(BaseEvent):
         '''
         Constructor
         '''
-        
