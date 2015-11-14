@@ -8,6 +8,8 @@ import json
 from autobahn.twisted.websocket import WebSocketServerProtocol, WebSocketServerFactory
 from twisted.python import log
 from twisted.internet import reactor
+from nosql.redis_interface import RedisAdapter
+from common.globals import Conguration
 
 class LiveWireServerProtocol(WebSocketServerProtocol):
     '''
@@ -15,10 +17,11 @@ class LiveWireServerProtocol(WebSocketServerProtocol):
     In simple language this is the web-socket end-point for the push server.  
     '''
 
-#     def __init__(self, params):
-#         '''
-#         Constructor
-#         '''
+    def __init__(self):
+        '''
+        Constructor
+        '''
+        self.redis_instance = RedisAdapter.getInstance(self)
     
     '''client connection handler'''
     def onConnect(self, request):
@@ -27,10 +30,12 @@ class LiveWireServerProtocol(WebSocketServerProtocol):
     '''web-socket open handler'''
     def onOpen(self):
         print("Web-socket connection open.")
+        #get the lw user id. This should be unique across clusters.
+        peer_id = RedisAdapter.get_lw_id(self)
+        Conguration.put_peer(self, peer_id, self)
     
     '''message handler'''
     def onMessage(self, payload, isBinary):
-        
         payloadObject = json.loads(payload.decode('utf8'))
         
         if(payloadObject['type'] == "subscribe"):

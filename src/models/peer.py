@@ -1,7 +1,7 @@
 '''
 Created on 02-Oct-2015
 
-@author: joyghosh
+@author: Joy Ghosh
 '''
 
 
@@ -16,3 +16,15 @@ class Peer(object):
         '''
         self.user_id = user_id
         self.socket = socket
+    
+    def getSocket(self):
+        '''
+        Return underlying socket connection.
+        '''
+        return self.socket
+    
+    def getUserId(self):
+        '''
+        Return user-id.
+        '''
+        return self.user_id

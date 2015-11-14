@@ -3,6 +3,7 @@ Created on 23-Aug-2015
 
 @author: joyghosh
 '''
+from models.peer import Peer
 
 class BaseChannel(object):
     '''
@@ -42,4 +43,5 @@ class BaseChannel(object):
         """
         Broadcast event to all subscribed peers.
         """
-        pass
+        for peer in self.peers:
+            pass

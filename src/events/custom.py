@@ -1,7 +1,7 @@
 '''
 Created on 02-Oct-2015
 
-@author: joyghosh
+@author: Joy Ghosh
 '''
 from events.event import BaseEvent
 
